@@ -1,0 +1,8 @@
+.widget {
+	float: left;
+	border: 1px dashed gray;
+	margin: 4px;
+	padding: 2px;
+	min-width: 200px;
+	min-height: 400px;
+}

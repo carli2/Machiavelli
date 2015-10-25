@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Machiavelli</title>
+    <meta name="keywords" content="machiavelli, strategy game" />
+    <link rel="stylesheet" href="css/main.css" type="text/css" />
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/game.js"></script>
+    <script type="text/javascript" src="js/map.js"></script>
+    <script type="text/javascript" src="js/feld.js"></script>
+    <script type="text/javascript" src="js/schild.js"></script>
+  </head>
+  <body>
+   <div ng-app="app" ng-controller="main">
+    <canvas id="map" width="400" height="400" class="widget">
+    </canvas>
+    <canvas id="feld" width="400" height="400" class="widget">
+    </canvas>
+    <div class="widget">
+     <button>Laufe nach Norden</button><br/>
+     <button>Laufe nach Süden</button><br/>
+     <button>Laufe nach Osten</button><br/>
+     <button>Laufe nach Westen</button><br/>
+     <button>Ernten</button><br/>
+     <button>Bauen / abreißen</button><br/>
+    </div>
+    <div class="widget">
+     TODO: Schilder<br/>
+     <button>+ neues Schild</button><br/>
+    </div>
+   </div>
+  </body>
+</html>
