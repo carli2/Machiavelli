@@ -6,6 +6,7 @@ function Player (game, id, x, y) {
 	this.y = y;
 	this.bag = {};
 	this.energy = 10000;
+	this.money = 0;
 	var self = this;
 
 	function setPosition (x, y) {
@@ -107,5 +108,33 @@ function Player (game, id, x, y) {
 	this.die = function () {
 		delete game.map.feld[self.x][self.y].players[self.id];
 		delete game.players[self.id];
+	}
+
+	// AI part
+	this.ai = function () {
+		// Ziel der KI berechnen
+		var target;
+		if (!this.bag.floor && !this.bag.meat) {
+			// nichts zu essen: Grundbedürfnis Essen
+			target = function (state) {
+				return state.bag.floor || state.bag.meat;
+			};
+		} else {
+			// Sonst: Bedürfnis Sicherheit
+			target = function (state) {
+				return state.bag.floor > (self.bag.floor || 0) || state.bag.meat > (self.bag.meat || 0) || state.money > (self.money || 0);
+			};
+		}
+		// Start-Zustand aus Player erzeugen
+		var startState = new State(game, self);
+		// Ziel in n Schritten erreichen
+		var targetState = startState.reachGoal (target, 10);
+		if (targetState) {
+			// Aktion ausführen
+			if (targetState.actions.length) {
+				// wenn überhaupt Handlung notwendig
+				this[targetState.actions[0][0]].call(this, targetState.actions[0][1]);
+			}
+		}
 	}
 }
