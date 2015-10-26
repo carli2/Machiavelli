@@ -79,6 +79,7 @@ var feldtypen = [
 function Feld (type) {
 	this.type = type;
 	this.schilder = [];
+	this.players = {};
 
 	this.render = function (ctx) {
 		ctx.beginPath();

@@ -12,7 +12,7 @@ function Map (w, h) {
 	this.feld = feld;
 
 	this.render = function (ctx, player) {
-		var sz = 20;
+		var sz = 12;
 		for (var i = 0; i < feld.length; i++) {
 			for (var j = 0; j < feld[i].length; j++) {
 				ctx.beginPath();

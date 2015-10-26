@@ -11,6 +11,7 @@
     <script type="text/javascript" src="js/map.js"></script>
     <script type="text/javascript" src="js/feld.js"></script>
     <script type="text/javascript" src="js/schild.js"></script>
+    <script type="text/javascript" src="js/player.js"></script>
   </head>
   <body>
    <div ng-app="app" ng-controller="main">
@@ -19,14 +20,18 @@
     <canvas id="feld" width="400" height="400" class="widget">
     </canvas>
     <div class="widget">
-     <button>Laufe nach Norden</button><br/>
-     <button>Laufe nach Süden</button><br/>
-     <button>Laufe nach Osten</button><br/>
-     <button>Laufe nach Westen</button><br/>
+     <button ng-click="move(0)">Laufe nach Norden</button><br/>
+     <button ng-click="move(1)">Laufe nach Süden</button><br/>
+     <button ng-click="move(2)">Laufe nach Osten</button><br/>
+     <button ng-click="move(3)">Laufe nach Westen</button><br/>
      <button>Ernten</button><br/>
      <button>Bauen / abreißen</button><br/>
     </div>
     <div class="widget">
+     TODO: Player<br/>
+     <div ng-repeat="bob in feld.players">
+     {{bob|json}}
+     </div>
      TODO: Schilder<br/>
      <button>+ neues Schild</button><br/>
     </div>

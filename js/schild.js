@@ -24,6 +24,7 @@ var strafen = {
 	},
 	"besitz": {
 		desc: "[x] und Gefolge dürfen das Gebiet ernten, alle anderen bekommen [strafe]",
+		// durchgang- und besitz-Schilder aufstellen verboten
 		schild: 'x',
 		params: {
 			x: 'person',
@@ -64,9 +65,8 @@ var strafen = {
 		}
 	},
 	"schildverbot": {
-		desc: "Wer Schilder vom Typ [x] aufstellt, bekommt [strafe]",
+		desc: "Wer Schilder aufstellt, bekommt [strafe]",
 		params: {
-			x: 'schildtyp',
 			strafe: 'schild'
 		}
 	},
@@ -96,6 +96,18 @@ var strafen = {
 		params: {
 			x: 'itemtype',
 			y: 'getcoins'
+		}
+	},
+	"fund": {
+		desc: "Hiermit hinterlasse ich [x]",
+		params: {
+			x: 'material'
+		}
+	},
+	"schutz": {
+		desc: "Wer Schilder zerstört und plündert, [strafe]",
+		params: {
+			strafe: 'schild'
 		}
 	}
 }
