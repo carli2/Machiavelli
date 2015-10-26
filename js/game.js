@@ -13,13 +13,13 @@ var game;
 function Game(w, h) {
 	var self = this;
 	this.map = new Map(32, 32);
-	this.players = [];
+	this.players = {};
 	for (var i = 0; i < 2 * 32 * 32; i++) {
-		this.players.push(new Player(this, i + 1, Math.floor(Math.random() * 32), Math.floor(Math.random() * 32)));
+		new Player(this, i + 1, Math.floor(Math.random() * 32), Math.floor(Math.random() * 32));
 	}
 
 	this.simulate = function () {
-		for (var i = self.players.length - 1; i >= 0; i--) {
+		for (var i in self.players) {
 			self.players[i].simulate();
 		}
 	}
@@ -28,7 +28,7 @@ function Game(w, h) {
 var app = angular.module('app', []);
 app.controller('main', function ($scope) {
 	game = new Game(32, 32, 1000);
-	game.player = game.players[0];
+	game.player = game.players[1];
 
 	setInterval(function () {
 		game.simulate();
@@ -52,5 +52,9 @@ app.controller('main', function ($scope) {
 	$scope.move = function (dir) {
 		game.player.move(dir);
 		reposition();
+	}
+
+	$scope.harvest = function () {
+		game.player.harvest();
 	}
 });

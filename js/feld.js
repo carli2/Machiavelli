@@ -87,4 +87,10 @@ function Feld (type) {
 		ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height);
 		ctx.fill();
 	}
+
+	this.harvest = function () {
+		var items = feldtypen[this.type].harvest;
+		if (!items) return;
+		return items[Math.floor(Math.random() * items.length)];
+	}
 }
