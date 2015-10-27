@@ -50,6 +50,11 @@ function State (game, playerOrState, action, cost, moneychange, bagchange) {
 			// otherwise: simulate world
 			var feld = game.map.feld[state.x][state.y];
 			// 4 moves
+			var cnt = 0;
+			for (var i in this.bag) {
+				cnt += this.bag[i];
+			}
+			var walkCost = 2 + Math.floor(cnt / 5);
 			for (var dir = 0; dir < 4; dir++) {
 				var x, y;
 				if (dir == 0) {
@@ -66,7 +71,7 @@ function State (game, playerOrState, action, cost, moneychange, bagchange) {
 					y = -1;
 				} else return;
 
-				var nextState = new State(game, state, ['move', dir], 3);
+				var nextState = new State(game, state, ['move', dir], walkCost);
 				nextState.x = (state.x + x + game.map.w) % game.map.w;
 				nextState.y = (state.y + y + game.map.h) % game.map.h;
 				queue.push(nextState);
@@ -78,7 +83,7 @@ function State (game, playerOrState, action, cost, moneychange, bagchange) {
 				for (var i = 0; i < harv.length; i++) {
 					newbag[harv[i]] = (newbag[harv[i]] || 0) + 1;
 				}
-				queue.push(new State(game, state, ['harvest'], harv.length, 0, newbag));
+				queue.push(new State(game, state, ['harvest'], harv.length * 5, 0, newbag));
 			}
 
 		}

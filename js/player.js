@@ -167,7 +167,7 @@ function Player (game, id, x, y) {
 			target = function (state) {
 				return state.bag.floor || state.bag.meat;
 			};
-		} else if ((this.bag.floor || 0) * 2000 + (this.bag.meat || 0) * 5000 < 3600 * 84) {
+		} else if ((this.bag.floor || 0) * 2000 + (this.bag.meat || 0) * 5000 < 3600 * 48) {
 			// Sonst: Bedürfnis Sicherheit (Nahrungsmittelvorräte für 48 Stunden)
 			target = function (state) {
 				return state.bag.floor > (self.bag.floor || 0) || state.bag.meat > (self.bag.meat || 0) || state.money > (self.money || 0);

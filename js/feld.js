@@ -4,7 +4,7 @@
 var feldtypen = [
 { // 0
 	name: "Wiese",
-	color: '#1ade00'
+	color: '#1a9e00'
 },
 { // 1
 	name: "Wald",
@@ -73,6 +73,15 @@ var feldtypen = [
 		'wood': 30
 	},
 	color: '#221f1f'
+},
+{ // 9
+	name: "Weide",
+	ground: 0,
+	harvest: ['meat', 'wool'],
+	build: {
+		'wood': 10
+	},
+	color: '#1ade00'
 }
 ]
 
