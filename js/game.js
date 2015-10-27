@@ -42,11 +42,10 @@ app.controller('main', function ($scope) {
 
 	$scope.game = game;
 
+	$scope.border = 50;
+
 	function reposition() {
 		$scope.feld = game.map.feld[game.player.x][game.player.y];
-
-		var feldctx = $('#feld')[0].getContext('2d');
-		$scope.feld.render(feldctx);
 
 		var mapctx = $('#map')[0].getContext('2d');
 		game.map.render(mapctx, game.player);

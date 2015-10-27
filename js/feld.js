@@ -113,10 +113,32 @@ function Feld (game, x, y, type) {
 		return game.map.feld[(self.x + x + game.map.w) % game.map.w][(self.y + y + game.map.h) % game.map.h];
 	}
 
+	this.getType = function () {
+		return feldtypen[this.type];
+	}
+
 	this.render = function (ctx) {
+		var w, h, breite, iw, ih;
+		w = ctx.canvas.width;
+		h = ctx.canvas.height;
+		breite = 50; // Breite des Seitenstreifens
+		iw = w - 2 * breite;
+		ih = h - 2 * breite;
+
+		// 4 Ränder
+		for (var i = 0; i < 4; i++) {
+			var nachbar = this.at(i);
+			ctx.beginPath();
+			ctx.fillStyle = feldtypen[nachbar.type].color;
+			ctx.rect(breite + (nachbar.y - this.y) * iw, breite + (nachbar.x - this.x) * ih, iw, ih);
+			ctx.fill();
+			// TODO: Warnschilder für 
+		}
+
+		// Hauptfeld
 		ctx.beginPath();
 		ctx.fillStyle = feldtypen[this.type].color;
-		ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height);
+		ctx.rect(breite, breite, iw, ih);
 		ctx.fill();
 	}
 
