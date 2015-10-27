@@ -41,8 +41,10 @@
 	display: inline-block;
 	width: 40px;
 	height: 40px;
+	background: url(../img/player.png);
 	border: 1px dashed black;
 	text-align: center;
+	text-shadow: 1px 1px 2px lime;
 }
 
 .bar {
