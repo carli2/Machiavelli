@@ -144,7 +144,7 @@ function Player (game, id, x, y) {
 		} else if ((this.bag.floor || 0) * 2000 + (this.bag.meat || 0) * 5000 < 3600 * 48) {
 			// Sonst: Bedürfnis Sicherheit (Nahrungsmittelvorräte für 48 Stunden)
 			target = function (state) {
-				return state.bag.floor > (self.bag.floor || 0) || state.bag.meat > (self.bag.meat || 0) || state.money > (self.money || 0);
+				return (state.bag.floor || 0) * 2000 + (state.bag.meat || 0) * 5000 > (self.bag.floor || 0) * 2000 + (self.bag.meat || 0) * 5000
 			};
 		} else {
 			// TODO: Bedürfnis Geselligkeit
