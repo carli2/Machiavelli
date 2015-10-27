@@ -75,43 +75,11 @@ function Player (game, id, x, y) {
 	}
 
 	this.addToBag = function (item) {
-		if (typeof item === 'string') {
-			// single item
-			this.bag[item] = (this.bag[item] || 0) + 1;
-		} else {
-			// other bag
-			for (var part in item) {
-				this.bag[part] = (this.bag[item] || 0) + item[part];
-			}
-		}
+		bag_add(this.bag, item);
 	}
 
 	this.atomicTakeBag = function (item) {
-		if (typeof item === 'string') {
-			// single item
-			if (this.bag[item]) {
-				this.bag[item]--;
-				if (!this.bag[item]) {
-					delete this.bag[item];
-				}
-				return true;
-			}
-		} else {
-			// other bag
-			var can = true;
-			for (var part in item) {
-				if (!this.bag[part] || this.bag[part] < item[part]) can = false;
-			}
-			if (can) {
-				for (var part in item) {
-					this.bag[part] -= item[part];
-					if (!this.bag[part]) {
-						delete this.bag[part];
-					}
-				}
-				return true;
-			}
-		}
+		bag_atomic_take(this.bag, item);
 	}
 
 	this.simulate = function () {

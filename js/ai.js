@@ -11,17 +11,7 @@ function State (game, playerOrState, action, cost, moneychange, bagchange) {
 	} else if (playerOrState.constructor == State) {
 		this.money = playerOrState.money + (moneychange || 0);
 		if (bagchange) {
-			var newbag = {};
-			for (var i in playerOrState.bag) {
-				newbag[i] = playerOrState.bag[i];
-			}
-			for (var i in bagchange) {
-				newbag[i] = (newbag[i] || 0) + bagchange[i];
-				if (newbag[i] <= 0) {
-					delete newbag[i];
-				}
-			}
-			this.bag = newbag;
+			this.bag = bag_merge(playerOrState.bag, bagchange);
 		} else {
 			this.bag = playerOrState.bag;
 		}
@@ -62,7 +52,7 @@ function State (game, playerOrState, action, cost, moneychange, bagchange) {
 				var newbag = {};
 				var harv = feldtypen[feld.type].harvest;
 				for (var i = 0; i < harv.length; i++) {
-					newbag[harv[i]] = (newbag[harv[i]] || 0) + 1;
+					bag_add(newbag, harv[i]);
 				}
 				queue.push(new State(game, state, ['harvest'], 1, 0, newbag));
 			}
