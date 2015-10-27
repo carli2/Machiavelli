@@ -51,24 +51,10 @@ function State (game, playerOrState, action, cost, moneychange, bagchange) {
 			var feld = game.map.feld[state.x][state.y];
 			// 4 moves
 			for (var dir = 0; dir < 4; dir++) {
-				var x, y;
-				if (dir == 0) {
-					x = -1;
-					y = 0;
-				} else if (dir == 1) {
-					x = 1;
-					y = 0;
-				} else if (dir == 2) {
-					x = 0;
-					y = 1;
-				} else if (dir == 3) {
-					x = 0;
-					y = -1;
-				} else return;
-
+				var newfeld = feld.at(dir);
 				var nextState = new State(game, state, ['move', dir], 2);
-				nextState.x = (state.x + x + game.map.w) % game.map.w;
-				nextState.y = (state.y + y + game.map.h) % game.map.h;
+				nextState.x = newfeld.x;
+				nextState.y = newfeld.y;
 				queue.push(nextState);
 			}
 			// harvest

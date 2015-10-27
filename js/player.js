@@ -1,5 +1,6 @@
 
 function Player (game, id, x, y) {
+	var self = this;
 	game.players[id] = this;
 	this.id = id;
 	this.x = x;
@@ -9,7 +10,6 @@ function Player (game, id, x, y) {
 	this.money = 0;
 	this.action = null;
 	this.remaining = 0;
-	var self = this;
 
 	function setPosition (x, y) {
 		delete game.map.feld[self.x][self.y].players[self.id];
@@ -23,22 +23,8 @@ function Player (game, id, x, y) {
 	function performAction (action) {
 
 		if (action[0] === 'move') {
-			var x, y, dir = action[1];
-			if (dir == 0) {
-				x = -1;
-				y = 0;
-			} else if (dir == 1) {
-				x = 1;
-				y = 0;
-			} else if (dir == 2) {
-				x = 0;
-				y = 1;
-			} else if (dir == 3) {
-				x = 0;
-				y = -1;
-			} else return;
-
-			setPosition((self.x + x + game.map.w) % game.map.w, (self.y + y + game.map.h) % (game.map.h));
+			var neufeld = game.map.feld[self.x][self.y].at(action[1]);
+			setPosition(neufeld.x, neufeld.y);
 		} else if (action[0] === 'harvest') {
 			var item = game.map.feld[self.x][self.y].harvest();
 			if (item) {
