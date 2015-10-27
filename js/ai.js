@@ -34,19 +34,14 @@ function State (game, playerOrState, action, cost, moneychange, bagchange) {
 
 	this.reachGoal = function (acceptance, maxDepth) {
 		// start-queue
-		var queue = [this];
+		var queue = binaryHeap(function (a, b) {
+			return a.cost < b.cost;
+		});
+		queue.push(this);
 		// main loop: enqueue and fold
-		while (maxDepth-- && queue.length) {
+		while (maxDepth-- && queue.size()) {
 			// pull best state from queue
-			// TODO: heap push, put
-			var bestc = queue[0].cost, best = 0;
-			for (var i = 1; i < queue.length; i++) {
-				if (queue[i].cost < bestc) {
-					bestc = queue[i].cost;
-					best = i;
-				}
-			}
-			var state = queue.splice(best, 1)[0];
+			var state = queue.pop();
 			if (acceptance(state)) {
 				// found accepting state in search tree
 				return state;

@@ -124,16 +124,20 @@ function Player (game, id, x, y) {
 				this.action = null;
 			}
 		}
-		// Fleisch hilft bei groben Verletzungen oder wenn Getreide fehlt
-		if (this.energy < 5000) {
-			if (this.atomicTakeBag('meat')) {
-				this.energy += 5000;
+		if (!this.remaining) {
+			// wenn gerade nichts getan wird: essen
+
+			// Fleisch hilft bei groben Verletzungen oder wenn Getreide fehlt
+			if (this.energy < 5000) {
+				if (this.atomicTakeBag('meat')) {
+					this.energy += 5000;
+				}
 			}
-		}
-		// Getreide hilft bei kleinem Hunger
-		if (this.energy < 8000) {
-			if (this.atomicTakeBag('floor')) {
-				this.energy += 2000;
+			// Getreide hilft bei kleinem Hunger
+			if (this.energy < 8000) {
+				if (this.atomicTakeBag('floor')) {
+					this.energy += 2000;
+				}
 			}
 		}
 
@@ -159,15 +163,19 @@ function Player (game, id, x, y) {
 		// Ziel der KI berechnen
 		var target;
 		if (!this.bag.floor && !this.bag.meat) {
-			// nichts zu essen: Grundbedürfnis Essen
+			// nichts zu essen: Grundbedürfnis Essen (überhaupt etwas zu essen)
 			target = function (state) {
 				return state.bag.floor || state.bag.meat;
 			};
-		} else {
-			// Sonst: Bedürfnis Sicherheit
+		} else if ((this.bag.floor || 0) * 2000 + (this.bag.meat || 0) * 5000 < 3600 * 84) {
+			// Sonst: Bedürfnis Sicherheit (Nahrungsmittelvorräte für 48 Stunden)
 			target = function (state) {
 				return state.bag.floor > (self.bag.floor || 0) || state.bag.meat > (self.bag.meat || 0) || state.money > (self.money || 0);
 			};
+		} else {
+			// TODO: Bedürfnis Geselligkeit
+			// TODO: Bedürfnis Kinder
+			return;
 		}
 		// Start-Zustand aus Player erzeugen
 		var startState = new State(game, self);
