@@ -27,3 +27,40 @@
 	opacity: 0.7;
 }
 
+.full {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+	margin: 0px;
+	padding: 0px;
+}
+
+.player {
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+	border: 1px dashed black;
+	text-align: center;
+}
+
+.bar {
+	position: relative;
+	background-color: red;
+	margin: 0px;
+	padding: 0px;
+	border: 1px solid black;
+	height: 5px;
+	width: 38px;
+}
+
+.barbar {
+	background-color: green;
+	padding: 0px;
+	margin: 0px;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	bottom: 0px;
+}

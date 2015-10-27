@@ -46,6 +46,7 @@ app.controller('main', function ($scope) {
 
 	function reposition() {
 		$scope.feld = game.map.feld[game.player.x][game.player.y];
+		$scope.at = [$scope.feld.at(0), $scope.feld.at(1), $scope.feld.at(2), $scope.feld.at(3)];
 
 		var mapctx = $('#map')[0].getContext('2d');
 		game.map.render(mapctx, game.player);

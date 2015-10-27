@@ -55,7 +55,7 @@ function Player (game, id, x, y) {
 			for (var i in this.bag) {
 				cnt += this.bag[i];
 			}
-			this.remaining = 2 + Math.floor(cnt / 5);
+			this.remaining = 4 + Math.floor(cnt / 10);
 		}
 		return true;
 	}
