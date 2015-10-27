@@ -53,9 +53,15 @@ function Player (game, id, x, y) {
 			if (feldtypen[game.map.feld[this.x][this.y].type].ground != action[1] && feldtypen[action[1]].ground != game.map.feld[this.x][this.y].type) {
 				// das darf auf diesem Grund nicht gebaut werden
 				return false;
-			} else {
-				game.map.feld[this.x][this.y].harvester = this.id;
 			}
+			if (feldtypen[action[1]].ground == game.map.feld[this.x][this.y].type) {
+				// Bauen (nicht abreißen) benötigt Material
+				if (!bag_atomic_take(this.bag, feldtypen[action[1]].build)) {
+					// Ressourcen fehlen
+					return false;
+				}
+			}
+			game.map.feld[this.x][this.y].harvester = this.id;
 		}
 		
 		this.action = action;

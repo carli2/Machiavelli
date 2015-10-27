@@ -14,7 +14,7 @@ function Game(w, h) {
 	var self = this;
 	this.map = new Map(this, w, h);
 	this.players = {};
-	for (var i = 0; i < 0.5 * w * h; i++) {
+	for (var i = 0; i < 5 * w * h; i++) {
 		new Player(this, i + 1, Math.floor(Math.random() * w), Math.floor(Math.random() * h));
 	}
 
@@ -39,6 +39,7 @@ app.controller('main', function ($scope) {
 
 	setInterval(function () {
 		game.simulate();
+		redrawMap();
 		$scope.$apply();
 	}, 1000);
 
@@ -46,20 +47,19 @@ app.controller('main', function ($scope) {
 
 	$scope.border = 50;
 
-	function reposition() {
+	var mapctx = $('#map')[0].getContext('2d');
+	function redrawMap() {
 		$scope.feld = game.map.feld[game.player.x][game.player.y];
 		$scope.at = [$scope.feld.at(0), $scope.feld.at(1), $scope.feld.at(2), $scope.feld.at(3)];
 
-		var mapctx = $('#map')[0].getContext('2d');
 		game.map.render(mapctx, game.player);
 	}
 
-	$scope.$watch('game.player.x', reposition);
-	$scope.$watch('game.player.y', reposition);
-
-	reposition();
+	redrawMap();
 
 	$scope.action = function (action) {
-		return game.player.doAction(action);
+		if (!game.player.doAction(action)) {
+			alert('Aktion nicht erfolgreich');
+		}
 	}
 });
