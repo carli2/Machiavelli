@@ -77,7 +77,7 @@ function State (game, playerOrState, action, cost, moneychange, bagchange) {
 				queue.push(nextState);
 			}
 			// harvest
-			if (feldtypen[feld.type].harvest) {
+			if (feldtypen[feld.type].harvest && !feld.harvester) {
 				var newbag = {};
 				var harv = feldtypen[feld.type].harvest;
 				for (var i = 0; i < harv.length; i++) {

@@ -80,6 +80,7 @@ function Feld (type) {
 	this.type = type;
 	this.schilder = [];
 	this.players = {};
+	this.harvester = 0;
 
 	this.render = function (ctx) {
 		ctx.beginPath();
@@ -89,6 +90,7 @@ function Feld (type) {
 	}
 
 	this.harvest = function () {
+		this.harvester = 0;
 		var items = feldtypen[this.type].harvest;
 		if (!items) return;
 		return items[Math.floor(Math.random() * items.length)];

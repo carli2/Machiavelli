@@ -58,6 +58,6 @@ app.controller('main', function ($scope) {
 	reposition();
 
 	$scope.action = function (action) {
-		game.player.doAction(action);
+		return game.player.doAction(action);
 	}
 });

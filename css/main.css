@@ -6,3 +6,20 @@
 	min-width: 200px;
 	min-height: 400px;
 }
+
+.overlay {
+	position: fixed;
+	top: 10%;
+	bottom: 10%;
+	left: 10%;
+	right: 10%;
+	border: 5px solid #e33;
+	border-radius: 30px;
+	background-color: white;
+	text-align: center;
+}
+
+.big {
+	font-size: 200px;
+}
+

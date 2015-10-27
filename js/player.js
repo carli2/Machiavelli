@@ -48,7 +48,19 @@ function Player (game, id, x, y) {
 	}
 
 	this.doAction = function (action) {
-		if (this.action) return; // tut bereits was
+		if (this.action) {
+			return; // tut bereits was
+		}
+
+		if (action[0] === 'harvest') {
+			if (game.map.feld[this.x][this.y].harvester) {
+				// es erntet bereits jemand
+				return false;
+			} else {
+				game.map.feld[this.x][this.y].harvester = this.id;
+			}
+		}
+		
 		this.action = action;
 		this.remaining = 5;
 		if (action[0] === 'move') {
@@ -132,6 +144,9 @@ function Player (game, id, x, y) {
 	}
 
 	this.die = function () {
+		if (game.map.feld[self.x][self.y].harvester === self.id) {
+			game.map.feld[self.x][self.y].harvester = 0;
+		}
 		delete game.map.feld[self.x][self.y].players[self.id];
 		delete game.players[self.id];
 	}
@@ -157,7 +172,8 @@ function Player (game, id, x, y) {
 		// Start-Zustand aus Player erzeugen
 		var startState = new State(game, self);
 		// Ziel in n Schritten erreichen
-		var targetState = startState.reachGoal (target, 10);
+		var targetState = startState.reachGoal (target, 30);
+		this.ts = targetState;
 		if (targetState) {
 			// Aktion ausführen
 			if (targetState.actions.length) {
