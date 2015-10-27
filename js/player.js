@@ -63,6 +63,41 @@ function Player (game, id, x, y) {
 			}
 			game.map.feld[this.x][this.y].harvester = this.id;
 		}
+
+		if (action[0] === 'schild') {
+			var meinbag = bag_merge(self.bag, {}), meinmoney = self.money;
+			function testSchild(schild) {
+				if (!schild.type) return false;
+				for (var p in schildtypen[schild.type]) {
+					switch (schildtypen[schild.type]) {
+						case 'schild': if (!testSchild(schild[p])) return false; break;
+						case 'material': if (!bag_atomic_take(meinbag, schild[p])) return false; break;
+						case 'coins': meinmoney -= schild[p]; if (meinmoney < 0) return false; break;
+					}
+				}
+				return true;
+			}
+
+			if (!testSchild(action[1])) {
+				return false;
+			}
+
+			function nimmSchild(schild) {
+				for (var p in schildtypen[schild.type]) {
+					switch (schildtypen[schild.type]) {
+						case 'schild': nimmSchild(schild[p]); break; // TODO: Was ist bei Strafen, die mehrmals kommen?
+						case 'material': bag_atomic_take(self.bag, schild[p]); break;
+						case 'coins': self.money -= schild[p]; break;
+					}
+				}
+				return true;
+			}
+
+			// sonst: Schild sofort aufstellen!
+			action[1].owner = self.id;
+			game.map.feld[self.x][self.y].schilder.push(action[1]);
+			return true; // keine Aktion, die Zeit dauert
+		}
 		
 		this.action = action;
 		this.remaining = 5;
@@ -139,17 +174,21 @@ function Player (game, id, x, y) {
 		if (!this.bag.floor && !this.bag.meat) {
 			// nichts zu essen: Grundbedürfnis Essen (überhaupt etwas zu essen)
 			target = function (state) {
-				return state.bag.floor || state.bag.meat;
+				return state.bag.floor || state.bag.meat ? 1 : 0;
 			};
 		} else if ((this.bag.floor || 0) * 2000 + (this.bag.meat || 0) * 5000 < 3600 * 48) {
 			// Sonst: Bedürfnis Sicherheit (Nahrungsmittelvorräte für 48 Stunden)
 			target = function (state) {
-				return (state.bag.floor || 0) * 2000 + (state.bag.meat || 0) * 5000 > (self.bag.floor || 0) * 2000 + (self.bag.meat || 0) * 5000
+				var value = (state.bag.floor || 0) * 2000 + (state.bag.meat || 0) * 5000;
+				if (value > 3600 * 48) {
+					value = 3600 * 48 + state.money;
+				}
+				return value;
 			};
 		} else {
 			// TODO: Bedürfnis Geselligkeit
 			// TODO: Bedürfnis Kinder
-			return;
+			return 0;
 		}
 		// Start-Zustand aus Player erzeugen
 		var startState = new State(game, self);

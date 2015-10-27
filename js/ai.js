@@ -21,26 +21,19 @@ function State (game, playerOrState, action, cost, moneychange, bagchange) {
 	this.y = playerOrState.y;
 	this.type = game.map.feld[this.x][this.y].type;
 
-	this.reachGoal = function (acceptance, maxDepth) {
+	this.reachGoal = function (stateValue, maxDepth) {
 		// start-queue
 		var queue = binaryHeap(function (a, b) {
 			return a.cost < b.cost;
 		});
+		var bestState = this;
 		queue.push(this);
 		// main loop: enqueue and fold
 		while (maxDepth-- && queue.size()) {
 			// pull best state from queue
 			var state = queue.pop();
-			if (acceptance(state)) {
-				// found accepting state in search tree
-				return state;
-			}
-
-			function collectBag(targetbag) {
-				return state.reachGoal(function (state) {
-					return bag_has(state.bag, targetbag);
-				}, maxDepth);
-			}
+			state.value = stateValue(state);
+			if (state.value > bestState.value) bestState = state;
 
 			// otherwise: simulate world
 			var feld = game.map.feld[state.x][state.y];
@@ -83,5 +76,6 @@ function State (game, playerOrState, action, cost, moneychange, bagchange) {
 				}
 			}
 		}
+		return bestState;
 	}
 }

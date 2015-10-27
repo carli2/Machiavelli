@@ -13,7 +13,7 @@
  * ask: verkaufe [x] für [y] Münzen pro Stück
  */
 
-var strafen = {
+var schildtypen = {
 	"durchgang": {
 		desc: "[x] und Gefolge darf das Gelände betreten, alle anderen bekommen [strafe]",
 		schild: 'x',
@@ -85,16 +85,16 @@ var strafen = {
 		}
 	},
 	"bid": {
-		desc: "Wer [x] hinterlegt, bekommt [y] je Stück",
+		desc: "Wer [x] hinterlegt, bekommt [y]",
 		params: {
-			x: 'itemtype',
+			x: 'getmaterial',
 			y: 'coins'
 		}
 	},
 	"ask": {
-		desc: "Wer [x] kaufen will, zahlt dafür [y] je Stück",
+		desc: "Wer [x] kaufen will, zahlt dafür [y]",
 		params: {
-			x: 'itemtype',
+			x: 'material',
 			y: 'getcoins'
 		}
 	},
@@ -110,4 +110,12 @@ var strafen = {
 			strafe: 'schild'
 		}
 	}
+}
+
+var defaultSchildValue = {
+	'schild': {},
+	'getcoins': 0,
+	'coins': 0,
+	'material': {},
+	'getmaterial': {}
 }

@@ -30,20 +30,21 @@
      <feld ng-model="feld" style="position: absolute; left: {{border}}px; right:{{border}}px; top: {{border}}px; bottom: {{border}}px;">{{feld|json}}</feld>
     </div>
     <div class="widget">
-     <ul>
-      <li ng-repeat="(item, menge) in game.player.bag track by $index">{{menge}}x {{item}}</li>
-     </ul>
+     <bag ng-model="game.player.bag"></bag>
      <button style="display: block;" ng-click="action(['harvest'])">Ernten</button>
      <button style="display: block;" ng-click="action(['build', feld.getType().ground])" ng-if="feld.getType().ground !== undefined">abreißen</button>
      <button style="display: block;" ng-click="action(['build', $index])" ng-repeat="typ in feldtypen" ng-if="typ.ground == feld.type">{{typ.name}} bauen (Benötigt: <span ng-repeat="(item, menge) in typ.build track by item"><span ng-if="$index">, </span>{{menge}}x {{item}}</span>)</button>
     </div>
-    <div class="widget">
-     TODO: Player<br/>
+    <div class="widget" style="max-width: 700px;">
+     <h2>Schilder</h2>
+     <schild style="display: block;" ng-repeat="schild in feld.schilder" ng-model="schild"></schild>
+     <neu-schild ng-model="neuschild"></neu-schild><br/>
+     {{neuschild|json}}
+     <button ng-click="action(['schild', neuschild])">+ neues Schild</button><br/>
+     <h2>Spieler</h2>
      <div ng-repeat="bob in feld.players">
      {{bob|json}}
      </div>
-     TODO: Schilder<br/>
-     <button>+ neues Schild</button><br/>
     </div>
     <!--<div class="overlay" ng-show="game.player.remaining">
      <span class="big">Noch {{game.player.remaining}} ...</span>

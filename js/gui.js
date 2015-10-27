@@ -42,3 +42,66 @@ app.directive('bar', function () {
 			'</div>'
 	};
 });
+
+app.directive('schild', function () {
+	return {
+		restrict: 'E',
+		scope: { ngModel: '=' },
+		template: '<h3>{{schildtypen[ngModel.type].desc}}</h3>'+
+			'<div ng-repeat="(par, type) in schildtypen[ngModel.type].params">Parameter [{{par}}]:<br/>'+
+			'<bag ng-model="ngModel[par]" ng-if="type == \'material\' || type == \'getmaterial\'"></bag>'+
+			'<span ng-if="type == \'coins\' || type == \'getcoins\'">{{ngModel[par]}} coins</span>'+
+			'<span ng-if="type == \'schild\'">[strafe]</span>'+
+			'</div>',
+		controller: function ($scope) {
+			$scope.schildtypen = schildtypen;
+		}
+	};
+});
+
+app.directive('neuSchild', function () {
+	return {
+		restrict: 'E',
+		scope: { ngModel: '=' },
+		template: '<select ng-model="ngModel.type"><option ng-value="type" ng-repeat="(type, o) in schildtypen">{{o.desc}}</option></select>'+
+			'<div ng-repeat="(par, type) in schildtypen[ngModel.type].params">Parameter [{{par}}]:<br/>'+
+			'<edit-bag ng-model="ngModel[par]"></edit-bag>'+
+			'</div>',
+		controller: function ($scope) {
+			$scope.schildtypen = schildtypen;
+			$scope.$watch('ngModel.type', function () {
+				for (var i in $scope.ngModel) {
+					if (i !== 'type') delete $scope.ngModel[i];
+				}
+				for (var i in schildtypen[$scope.ngModel.type].params) {
+					$scope.ngModel[i] = defaultSchildValue[schildtypen[$scope.ngModel.type].params[i]];
+				}
+			});
+		}
+	}
+});
+
+app.directive('bag', function () {
+	return {
+		restrict: 'E',
+		scope: { ngModel: '=' },
+		template: '<ul><li ng-repeat="(item, menge) in ngModel track by $index">{{menge}}x {{item}}</li></ul>'
+	};
+});
+
+app.directive('editBag', function () {
+	return {
+		restrict: 'E',
+		scope: { ngModel: '=' },
+		template: '<ul><li ng-repeat="(item, menge) in ngModel">{{menge}}x {{item}} <button ng-click="add(item, 10)">+10</button><button ng-click="add(item, 1)">+1</button><button ng-click="add(item, -1)">-1</button><button ng-click="add(item, -10)">-10</button></li>'+
+			'<li><input ng-model="neuFeld" /><button ng-click="ngModel[neuFeld] = 1">+</button></li></ul>', // TODO: Materialien-Dropdown
+		controller: function ($scope) {
+			$scope.add = function (type, i) {
+				$scope.ngModel[type] = ($scope.ngModel[type] || 0) + i;
+				if ($scope.ngModel[type] <= 0) {
+					delete $scope.ngModel[type];
+				}
+			}
+		}
+	}
+});

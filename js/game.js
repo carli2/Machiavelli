@@ -14,7 +14,7 @@ function Game(w, h) {
 	var self = this;
 	this.map = new Map(this, w, h);
 	this.players = {};
-	for (var i = 0; i < 5 * w * h; i++) {
+	for (var i = 0; i < w * h; i++) {
 		new Player(this, i + 1, Math.floor(Math.random() * w), Math.floor(Math.random() * h));
 	}
 
@@ -33,6 +33,7 @@ function Game(w, h) {
 var app = angular.module('app', []);
 app.controller('main', function ($scope) {
 	$scope.feldtypen = feldtypen;
+	$scope.schildtypen = schildtypen;
 
 	game = new Game(16, 16);
 	game.player = game.players[1];
@@ -62,4 +63,6 @@ app.controller('main', function ($scope) {
 			alert('Aktion nicht erfolgreich');
 		}
 	}
+
+	$scope.neuschild = {};
 });
