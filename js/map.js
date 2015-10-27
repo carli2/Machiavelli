@@ -1,11 +1,11 @@
-function Map (w, h) {
+function Map (game, w, h) {
 	this.w = w;
 	this.h = h;
 	var feld = [];
 	for (var i = 0; i < h; i++) {
 		var row = [];
 		for (var j = 0; j < w; j++) {
-			row.push(new Feld(Math.trunc(4 * Math.random())));
+			row.push(new Feld(game, i, j, Math.trunc(4 * Math.random())));
 		}
 		feld.push(row);
 	}

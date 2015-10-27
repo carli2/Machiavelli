@@ -12,7 +12,7 @@ var game;
 
 function Game(w, h) {
 	var self = this;
-	this.map = new Map(w, h);
+	this.map = new Map(this, w, h);
 	this.players = {};
 	for (var i = 0; i < 0.5 * w * h; i++) {
 		new Player(this, i + 1, Math.floor(Math.random() * w), Math.floor(Math.random() * h));

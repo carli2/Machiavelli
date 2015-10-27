@@ -85,11 +85,33 @@ var feldtypen = [
 }
 ]
 
-function Feld (type) {
+function Feld (game, x, y, type) {
+	var self = this;
+	this.x = x;
+	this.y = y;
 	this.type = type;
 	this.schilder = [];
 	this.players = {};
 	this.harvester = 0;
+
+	this.at = function (dir) {
+		var x, y;
+		if (dir == 0) {
+			x = -1;
+			y = 0;
+		} else if (dir == 1) {
+			x = 1;
+			y = 0;
+		} else if (dir == 2) {
+			x = 0;
+			y = 1;
+		} else if (dir == 3) {
+			x = 0;
+			y = -1;
+		} else return;
+
+		return game.map.feld[(self.x + x + game.map.w) % game.map.w][(self.y + y + game.map.h) % game.map.h];
+	}
 
 	this.render = function (ctx) {
 		ctx.beginPath();
