@@ -32,6 +32,8 @@ function Game(w, h) {
 
 var app = angular.module('app', []);
 app.controller('main', function ($scope) {
+	$scope.feldtypen = feldtypen;
+
 	game = new Game(16, 16);
 	game.player = game.players[1];
 

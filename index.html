@@ -32,8 +32,9 @@
      <ul>
       <li ng-repeat="(item, menge) in game.player.bag track by $index">{{menge}}x {{item}}</li>
      </ul>
-     <button ng-click="action(['harvest'])">Ernten</button><br/>
-     <button>Bauen / abreißen</button><br/>
+     <button style="display: block;" ng-click="action(['harvest'])">Ernten</button>
+     <button style="display: block;" ng-click="action(['build', feld.getType().ground])" ng-if="feld.getType().ground !== undefined">abreißen</button>
+     <button style="display: block;" ng-click="action(['build', $index])" ng-repeat="typ in feldtypen" ng-if="typ.ground == feld.type">{{typ.name}} bauen (Benötigt: <span ng-repeat="(item, menge) in typ.build track by item"><span ng-if="$index">, </span>{{menge}}x {{item}}</span>)</button>
     </div>
     <div class="widget">
      TODO: Player<br/>

@@ -30,6 +30,8 @@ function Player (game, id, x, y) {
 			if (item) {
 				self.addToBag(item);
 			}
+		} else if (action[0] === 'build') {
+			game.map.feld[self.x][self.y].build(action[1]);
 		}
 	}
 
@@ -46,6 +48,15 @@ function Player (game, id, x, y) {
 				game.map.feld[this.x][this.y].harvester = this.id;
 			}
 		}
+
+		if (action[0] === 'build') {
+			if (feldtypen[game.map.feld[this.x][this.y].type].ground != action[1] && feldtypen[action[1]].ground != game.map.feld[this.x][this.y].type) {
+				// das darf auf diesem Grund nicht gebaut werden
+				return false;
+			} else {
+				game.map.feld[this.x][this.y].harvester = this.id;
+			}
+		}
 		
 		this.action = action;
 		this.remaining = 5;
@@ -56,6 +67,9 @@ function Player (game, id, x, y) {
 				cnt += this.bag[i];
 			}
 			this.remaining = 4 + Math.floor(cnt / 10);
+		}
+		if (action[0] === 'build') {
+			this.remaining = 10;
 		}
 		return true;
 	}

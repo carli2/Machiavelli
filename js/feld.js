@@ -148,4 +148,9 @@ function Feld (game, x, y, type) {
 		if (!items) return;
 		return items[Math.floor(Math.random() * items.length)];
 	}
+
+	this.build = function (type) {
+		this.harvester = 0;
+		this.type = type;
+	}
 }
