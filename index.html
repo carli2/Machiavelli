@@ -14,16 +14,17 @@
     <script type="text/javascript" src="js/player.js"></script>
     <script type="text/javascript" src="js/ai.js"></script>
     <script type="text/javascript" src="js/binaryheap.js"></script>
+    <script type="text/javascript" src="js/gui.js"></script>
   </head>
   <body>
    <div ng-app="app" ng-controller="main">
     <canvas id="map" width="400" height="400" class="widget">
     </canvas>
     <div id="feld" style="width: 400px; height: 400; position: relative;" class="widget">
-     <div ng-click="action(['move', 0])" class="action" style="cursor: n-resize; background: {{feld.at(0).getType().color}}; position: absolute; left: {{border}}px; right: {{border}}px; top: 0px; height: {{border}}px;"></div>
-     <div ng-click="action(['move', 1])" class="action" style="cursor: s-resize; background: {{feld.at(1).getType().color}}; position: absolute; left: {{border}}px; right: {{border}}px; bottom: 0px; height: {{border}}px;"></div>
-     <div ng-click="action(['move', 2])" class="action" style="cursor: e-resize; background: {{feld.at(2).getType().color}}; position: absolute; top: {{border}}px; bottom: {{border}}px; right: 0px; width: {{border}}px;"></div>
-     <div ng-click="action(['move', 3])" class="action" style="cursor: w-resize; background: {{feld.at(3).getType().color}}; position: absolute; top: {{border}}px; bottom: {{border}}px; left: 0px; width: {{border}}px;"></div>
+     <preview ng-click="action(['move', 0])" class="action" style="cursor: n-resize; background: {{feld.at(0).getType().color}}; position: absolute; left: {{border}}px; right: {{border}}px; top: 0px; height: {{border}}px;"></preview>
+     <preview ng-click="action(['move', 1])" class="action" style="cursor: s-resize; background: {{feld.at(1).getType().color}}; position: absolute; left: {{border}}px; right: {{border}}px; bottom: 0px; height: {{border}}px;"></preview>
+     <preview ng-click="action(['move', 2])" class="action" style="cursor: e-resize; background: {{feld.at(2).getType().color}}; position: absolute; top: {{border}}px; bottom: {{border}}px; right: 0px; width: {{border}}px;"></preview>
+     <preview ng-click="action(['move', 3])" class="action" style="cursor: w-resize; background: {{feld.at(3).getType().color}}; position: absolute; top: {{border}}px; bottom: {{border}}px; left: 0px; width: {{border}}px;"></preview>
 
      <div style="background: {{feld.getType().color}}; position: absolute; left: {{border}}px; right:{{border}}px; top: {{border}}px; bottom: {{border}}px;">
       Mitte
