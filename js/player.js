@@ -7,6 +7,8 @@ function Player (game, id, x, y) {
 	this.bag = {};
 	this.energy = 10000;
 	this.money = 0;
+	this.action = null;
+	this.remaining = 0;
 	var self = this;
 
 	function setPosition (x, y) {
@@ -18,30 +20,46 @@ function Player (game, id, x, y) {
 
 	game.map.feld[x][y].players[self.id] = self;
 
-	this.move = function (dir) {
-		var x, y;
-		if (dir == 0) {
-			x = -1;
-			y = 0;
-		} else if (dir == 1) {
-			x = 1;
-			y = 0;
-		} else if (dir == 2) {
-			x = 0;
-			y = 1;
-		} else if (dir == 3) {
-			x = 0;
-			y = -1;
-		} else return;
+	function performAction (action) {
 
-		setPosition((self.x + x + game.map.w) % game.map.w, (self.y + y + game.map.h) % (game.map.h));
+		if (action[0] === 'move') {
+			var x, y, dir = action[1];
+			if (dir == 0) {
+				x = -1;
+				y = 0;
+			} else if (dir == 1) {
+				x = 1;
+				y = 0;
+			} else if (dir == 2) {
+				x = 0;
+				y = 1;
+			} else if (dir == 3) {
+				x = 0;
+				y = -1;
+			} else return;
+
+			setPosition((self.x + x + game.map.w) % game.map.w, (self.y + y + game.map.h) % (game.map.h));
+		} else if (action[0] === 'harvest') {
+			var item = game.map.feld[self.x][self.y].harvest();
+			if (item) {
+				self.addToBag(item);
+			}
+		}
 	}
 
-	this.harvest = function (dir) {
-		var item = game.map.feld[self.x][self.y].harvest();
-		if (item) {
-			this.addToBag(item);
+	this.doAction = function (action) {
+		if (this.action) return; // tut bereits was
+		this.action = action;
+		this.remaining = 5;
+		if (action[0] === 'move') {
+			// Bewegen dauert länger, je mehr Gepäck man hat
+			var cnt = 0;
+			for (var i in this.bag) {
+				cnt += this.bag[i];
+			}
+			this.remaining = 2 + Math.floor(cnt / 5);
 		}
+		return true;
 	}
 
 	this.addToBag = function (item) {
@@ -86,6 +104,14 @@ function Player (game, id, x, y) {
 
 	this.simulate = function () {
 		this.energy--;
+		// Handlungen
+		if (this.action) {
+			this.remaining--;
+			if (this.remaining <= 0) {
+				performAction(this.action);
+				this.action = null;
+			}
+		}
 		// Fleisch hilft bei groben Verletzungen oder wenn Getreide fehlt
 		if (this.energy < 5000) {
 			if (this.atomicTakeBag('meat')) {
@@ -112,6 +138,9 @@ function Player (game, id, x, y) {
 
 	// AI part
 	this.ai = function () {
+		if (this.action) {
+			return;
+		}
 		// Ziel der KI berechnen
 		var target;
 		if (!this.bag.floor && !this.bag.meat) {
@@ -133,7 +162,7 @@ function Player (game, id, x, y) {
 			// Aktion ausführen
 			if (targetState.actions.length) {
 				// wenn überhaupt Handlung notwendig
-				this[targetState.actions[0][0]].call(this, targetState.actions[0][1]);
+				this.doAction(targetState.actions[0]);
 			}
 		}
 	}

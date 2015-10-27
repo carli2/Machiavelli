@@ -52,14 +52,12 @@ app.controller('main', function ($scope) {
 		game.map.render(mapctx, game.player);
 	}
 
+	$scope.$watch('game.player.x', reposition);
+	$scope.$watch('game.player.y', reposition);
+
 	reposition();
 
-	$scope.move = function (dir) {
-		game.player.move(dir);
-		reposition();
-	}
-
-	$scope.harvest = function () {
-		game.player.harvest();
+	$scope.action = function (action) {
+		game.player.doAction(action);
 	}
 });
