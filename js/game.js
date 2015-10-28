@@ -17,8 +17,11 @@ function Game(w, h) {
 	var self = this;
 	this.map = new Map(this, w, h);
 	this.players = {};
-	for (var i = 0; i < w * h; i++) {
-		new Player(this, i + 1, Math.floor(Math.random() * w), Math.floor(Math.random() * h));
+
+	this.spawnPlayers = function (n) {
+		for (var i = 0; i < n; i++) {
+			new Player(this, i + 1, Math.floor(Math.random() * w), Math.floor(Math.random() * h));
+		}
 	}
 
 	this.simulate = function () {
@@ -41,7 +44,7 @@ function Game(w, h) {
 	}
 
 	this.exportPlayer = function (id) {
-		var player = this.players[i];
+		var player = this.players[id];
 		if (!player) return null;
 		var feld = this.map.feld[player.x][player.y];
 		return [feld.export(), feld.at(0).export(), feld.at(1).export(), feld.at(2).export(), feld.at(3).export()];

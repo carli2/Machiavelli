@@ -6,6 +6,7 @@ app.controller('main', function ($scope) {
 	$scope.schildtypen = schildtypen;
 
 	var game = new Game(16, 16);
+	game.spawnPlayers(300);
 	game.player = game.players[1];
 
 	setInterval(function () {
