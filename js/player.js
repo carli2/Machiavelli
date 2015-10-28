@@ -30,6 +30,16 @@ function Player (game, id, x, y) {
 		};
 	}
 
+	this.import = function (data) {
+		this.x = data.x;
+		this.y = data.y;
+		this.bag = data.bag;
+		this.energy = data.energy;
+		this.money = data.money;
+		this.action = data.action;
+		this.remaining = data.remaining;
+	}
+
 	function setPosition (x, y) {
 		delete game.map.feld[self.x][self.y].players[self.id];
 		self.x = x;

@@ -45,6 +45,17 @@ function Feld (game, x, y, type) {
 		};
 	}
 
+	this.import = function (data) {
+		this.type = data.type;
+		this.schilder = data.schilder;
+		this.players = {};
+		for (var i in data.players) {
+			// Spieler werden nach ID gesucht; Import muss vorher geschehen
+			this.players[i] = game.players[i];
+		}
+		this.harvester = data.harvester;
+	}
+
 	this.render = function (ctx) {
 		var w, h, breite, iw, ih;
 		w = ctx.canvas.width;
