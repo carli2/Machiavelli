@@ -79,3 +79,7 @@ var binaryHeap = function(comp) {
 
   return that;
 };
+
+if (typeof module !== 'undefined') {
+	module.exports = binaryHeap;
+}

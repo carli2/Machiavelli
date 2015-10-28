@@ -1,11 +1,16 @@
+
+if (typeof require !== 'undefined') {
+	Feld = require('./feld.js');
+}
+
 function Map (game, w, h) {
 	this.w = w;
 	this.h = h;
 	var feld = [];
-	for (var i = 0; i < h; i++) {
+	for (var i = 0; i < w; i++) {
 		var row = [];
-		for (var j = 0; j < w; j++) {
-			row.push(new Feld(game, i, j, Math.trunc(4 * Math.random())));
+		for (var j = 0; j < h; j++) {
+			row.push(new Feld(game, i, j, Math.floor(4 * Math.random())));
 		}
 		feld.push(row);
 	}
@@ -16,7 +21,7 @@ function Map (game, w, h) {
 		for (var i = 0; i < feld.length; i++) {
 			for (var j = 0; j < feld[i].length; j++) {
 				ctx.beginPath();
-				ctx.fillStyle = feldtypen[feld[i][j].type].color;
+				ctx.fillStyle = Feld.typen[feld[i][j].type].color;
 				ctx.rect(sz * j, sz * i, sz, sz);
 				ctx.fill();
 				if (player.x == i && player.y == j) {
@@ -29,4 +34,30 @@ function Map (game, w, h) {
 			}
 		}
 	}
+
+	// Minimap-Netzwerk
+	this.exportOverview = function () {
+		var result = [];
+		for (var i = 0; i < w; i++) {
+			var row = [];
+			for (var j = 0; j < h; j++) {
+				row.push(this.feld[i][j].type);
+			}
+			result.push(row);
+		}
+		return result;
+	}
+
+	this.importOverview = function (data) {
+		if (data.length != w || data[0].length != h) throw new Error('Map size does not match');
+		for (var i = 0; i < w; i++) {
+			for (var j = 0; j < h; j++) {
+				this.feld[i][j].type = data[i][j];
+			}
+		}
+	}
+}
+
+if (typeof module !== 'undefined') {
+	module.exports = Map;
 }

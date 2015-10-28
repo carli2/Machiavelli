@@ -1,4 +1,10 @@
 
+if (typeof require !== 'undefined') {
+	State = require('./ai.js');
+	Bag = require('./bag.js');
+}
+
+
 function Player (game, id, x, y) {
 	var self = this;
 	game.players[id] = this;
@@ -10,6 +16,19 @@ function Player (game, id, x, y) {
 	this.money = 0;
 	this.action = null;
 	this.remaining = 0;
+
+	this.export = function () {
+		return {
+			id: this.id,
+			x: this.x,
+			y: this.y,
+			bag: this.bag,
+			energy: this.energy,
+			money: this.money,
+			action: this.action,
+			remaining: this.remaining
+		};
+	}
 
 	function setPosition (x, y) {
 		delete game.map.feld[self.x][self.y].players[self.id];
@@ -50,13 +69,13 @@ function Player (game, id, x, y) {
 		}
 
 		if (action[0] === 'build') {
-			if (feldtypen[game.map.feld[this.x][this.y].type].ground != action[1] && feldtypen[action[1]].ground != game.map.feld[this.x][this.y].type) {
+			if (Feld.typen[game.map.feld[this.x][this.y].type].ground != action[1] && Feld.typen[action[1]].ground != game.map.feld[this.x][this.y].type) {
 				// das darf auf diesem Grund nicht gebaut werden
 				return false;
 			}
-			if (feldtypen[action[1]].ground == game.map.feld[this.x][this.y].type) {
+			if (Feld.typen[action[1]].ground == game.map.feld[this.x][this.y].type) {
 				// Bauen (nicht abreißen) benötigt Material
-				if (!bag_atomic_take(this.bag, feldtypen[action[1]].build)) {
+				if (!Bag.atomic_take(this.bag, Feld.typen[action[1]].build)) {
 					// Ressourcen fehlen
 					return false;
 				}
@@ -65,13 +84,13 @@ function Player (game, id, x, y) {
 		}
 
 		if (action[0] === 'schild') {
-			var meinbag = bag_merge(self.bag, {}), meinmoney = self.money;
+			var meinbag = Bag.merge(self.bag, {}), meinmoney = self.money;
 			function testSchild(schild) {
 				if (!schild.type) return false;
 				for (var p in schildtypen[schild.type]) {
 					switch (schildtypen[schild.type]) {
 						case 'schild': if (!testSchild(schild[p])) return false; break;
-						case 'material': if (!bag_atomic_take(meinbag, schild[p])) return false; break;
+						case 'material': if (!Bag.atomic_take(meinbag, schild[p])) return false; break;
 						case 'coins': meinmoney -= schild[p]; if (meinmoney < 0) return false; break;
 					}
 				}
@@ -86,7 +105,7 @@ function Player (game, id, x, y) {
 				for (var p in schildtypen[schild.type]) {
 					switch (schildtypen[schild.type]) {
 						case 'schild': nimmSchild(schild[p]); break; // TODO: Was ist bei Strafen, die mehrmals kommen?
-						case 'material': bag_atomic_take(self.bag, schild[p]); break;
+						case 'material': Bag.atomic_take(self.bag, schild[p]); break;
 						case 'coins': self.money -= schild[p]; break;
 					}
 				}
@@ -115,11 +134,11 @@ function Player (game, id, x, y) {
 	}
 
 	this.addToBag = function (item) {
-		bag_add(this.bag, item);
+		Bag.add(this.bag, item);
 	}
 
 	this.atomicTakeBag = function (item) {
-		return bag_atomic_take(this.bag, item);
+		return Bag.atomic_take(this.bag, item);
 	}
 
 	this.simulate = function () {
@@ -202,4 +221,8 @@ function Player (game, id, x, y) {
 			}
 		}
 	}
+}
+
+if (typeof module !== 'undefined') {
+	module.exports = Player;
 }

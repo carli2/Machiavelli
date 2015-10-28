@@ -1,4 +1,11 @@
 
+if (typeof require !== 'undefined') {
+	Player = require('./player.js');
+	Bag = require('./bag.js');
+	binaryHeap = require('./binaryheap.js');
+}
+
+
 function State (game, playerOrState, action, cost, moneychange, bagchange) {
 	if (playerOrState.constructor == Player) {
 		// Start-Zustand
@@ -9,7 +16,7 @@ function State (game, playerOrState, action, cost, moneychange, bagchange) {
 	} else if (playerOrState.constructor == State) {
 		this.money = playerOrState.money + (moneychange || 0);
 		if (bagchange) {
-			this.bag = bag_merge(playerOrState.bag, bagchange);
+			this.bag = Bag.merge(playerOrState.bag, bagchange);
 		} else {
 			this.bag = playerOrState.bag;
 		}
@@ -50,29 +57,29 @@ function State (game, playerOrState, action, cost, moneychange, bagchange) {
 				}
 			}
 			// harvest
-			if (feldtypen[state.type].harvest && !feld.harvester) {
+			if (Feld.typen[state.type].harvest && !feld.harvester) {
 				var newbag = {};
-				var harv = feldtypen[state.type].harvest;
+				var harv = Feld.typen[state.type].harvest;
 				for (var i = 0; i < harv.length; i++) {
-					bag_add(newbag, harv[i]);
+					Bag.add(newbag, harv[i]);
 				}
 				queue.push(new State(game, state, ['harvest'], 1, 0, newbag));
 			}
 			// build
-			for (var i = 0; i < feldtypen.length; i++) {
-				if (feldtypen[state.type].ground == i) {
+			for (var i = 0; i < Feld.typen.length; i++) {
+				if (Feld.typen[state.type].ground == i) {
 					// abreißen
 					var nextState = new State(game, state, ['build', i], 3);
 					nextState.type = i;
 					queue.push(nextState);
 				}
-				if (feldtypen[i].ground == state.type) {
+				if (Feld.typen[i].ground == state.type) {
 					// bauen
-					if (bag_has(state.bag, feldtypen[i].build)) {
+					if (Bag.has(state.bag, Feld.typen[i].build)) {
 						// Material da: bauen
 						var nextState = new State(game, state, ['build', i], 3, 0, {});
 						nextState.type = i;
-						if (bag_atomic_take(nextState.bag, feldtypen[i].build)) {
+						if (Bag.atomic_take(nextState.bag, Feld.typen[i].build)) {
 							queue.push(nextState);
 						}
 					}
@@ -81,4 +88,8 @@ function State (game, playerOrState, action, cost, moneychange, bagchange) {
 		}
 		return bestState;
 	}
+}
+
+if (typeof module !== 'undefined') {
+	module.exports = State;
 }

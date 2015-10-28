@@ -1,5 +1,7 @@
 
-function bag_merge(oldbag, bagchange) {
+var Bag = {};
+
+Bag.merge = function (oldbag, bagchange) {
 	var newbag = {};
 	for (var i in oldbag) {
 		newbag[i] = oldbag[i];
@@ -13,7 +15,7 @@ function bag_merge(oldbag, bagchange) {
 	return newbag;
 }
 
-function bag_add(bag, item) {
+Bag.add = function (bag, item) {
 	if (typeof item === 'string') {
 		// single item
 		bag[item] = (bag[item] || 0) + 1;
@@ -25,7 +27,7 @@ function bag_add(bag, item) {
 	}
 }
 
-function bag_has(bag, item) {
+Bag.has = function (bag, item) {
 	if (typeof item === 'string') {
 		// single item
 		if (bag[item]) {
@@ -42,8 +44,8 @@ function bag_has(bag, item) {
 	}
 }
 
-function bag_atomic_take(bag, item) {
-	if (!bag_has(bag, item)) return false;
+Bag.atomic_take = function (bag, item) {
+	if (!Bag.has(bag, item)) return false;
 
 	if (typeof item === 'string') {
 		// single item
@@ -62,4 +64,8 @@ function bag_atomic_take(bag, item) {
 		}
 		return true;
 	}
+}
+
+if (typeof module !== 'undefined') {
+	module.exports = Bag;
 }

@@ -2,7 +2,7 @@
 
 var app = angular.module('app', []);
 app.controller('main', function ($scope) {
-	$scope.feldtypen = feldtypen;
+	$scope.feldtypen = Feld.typen;
 	$scope.schildtypen = schildtypen;
 
 	var game = new Game(16, 16);
