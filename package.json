@@ -1,0 +1,12 @@
+{
+  "name": "Machiavelli",
+  "version": "0.9.0",
+  "scripts": {
+    "start": "node ./js/server.js"
+  },
+  "description": "A strategy game where the player has to lead AIs to harvest goods",
+  "author": "Carl-Philip Hänsch <cphaensch@gmail.com>",
+  "dependencies": {
+    "express": "~4.13.3"
+  }
+}
