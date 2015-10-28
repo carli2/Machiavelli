@@ -5,7 +5,7 @@ app.controller('main', function ($scope) {
 	$scope.feldtypen = feldtypen;
 	$scope.schildtypen = schildtypen;
 
-	game = new Game(16, 16);
+	var game = new Game(16, 16);
 	game.player = game.players[1];
 
 	setInterval(function () {

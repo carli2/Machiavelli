@@ -1,5 +1,3 @@
-var game;
-
 /**
  * Aktionen:
  * Laufen in benachbartes Feld
