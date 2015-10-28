@@ -39,12 +39,15 @@ function State (game, playerOrState, action, cost, moneychange, bagchange) {
 			var feld = game.map.feld[state.x][state.y];
 			// 4 moves
 			for (var dir = 0; dir < 4; dir++) {
-				var newfeld = feld.at(dir);
-				var nextState = new State(game, state, ['move', dir], 2);
-				nextState.x = newfeld.x;
-				nextState.y = newfeld.y;
-				nextState.type = newfeld.type;
-				queue.push(nextState);
+				// Filtern, dass man nicht zurückläuft (dir=1 nicht, wenn man vorher dir=0 lief)
+				if (!state.actions.length || state.actions[state.actions.length-1][0] !== 'move' || Math.floor(dir/2) != 1-Math.floor(state.actions[state.actions.length-1][1]/2)) {
+					var newfeld = feld.at(dir);
+					var nextState = new State(game, state, ['move', dir], 2);
+					nextState.x = newfeld.x;
+					nextState.y = newfeld.y;
+					nextState.type = newfeld.type;
+					queue.push(nextState);
+				}
 			}
 			// harvest
 			if (feldtypen[state.type].harvest && !feld.harvester) {

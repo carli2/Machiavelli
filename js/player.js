@@ -90,7 +90,6 @@ function Player (game, id, x, y) {
 						case 'coins': self.money -= schild[p]; break;
 					}
 				}
-				return true;
 			}
 
 			// sonst: Schild sofort aufstellen!
@@ -120,7 +119,7 @@ function Player (game, id, x, y) {
 	}
 
 	this.atomicTakeBag = function (item) {
-		bag_atomic_take(this.bag, item);
+		return bag_atomic_take(this.bag, item);
 	}
 
 	this.simulate = function () {
