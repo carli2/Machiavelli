@@ -17,14 +17,14 @@ function Map (game, w, h) {
 	this.feld = feld;
 
 	this.render = function (ctx, player) {
-		var sz = 24;
+		var sz = Math.min(ctx.canvas.width / game.map.w, ctx.canvas.height / game.map.h);
 		for (var i = 0; i < feld.length; i++) {
 			for (var j = 0; j < feld[i].length; j++) {
 				ctx.beginPath();
 				ctx.fillStyle = Feld.typen[feld[i][j].type].color;
 				ctx.rect(sz * j, sz * i, sz, sz);
 				ctx.fill();
-				if (player.x == i && player.y == j) {
+				if (player && player.x == i && player.y == j) {
 					// Spieler-Markierung zeichnen
 					ctx.beginPath();
 					ctx.fillStyle = 'blue';

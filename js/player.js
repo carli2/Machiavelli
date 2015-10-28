@@ -194,7 +194,7 @@ function Player (game, id, x, y) {
 
 	// AI part
 	this.ai = function () {
-		if (this.action) {
+		if (this.action || this.human) {
 			return;
 		}
 		// Ziel der KI berechnen

@@ -26,9 +26,7 @@ function Game(w, h) {
 
 	this.simulate = function () {
 		for (var i in self.players) {
-			if (i != 1) {
-				self.players[i].ai();
-			}
+			self.players[i].ai();
 		}
 		for (var i in self.players) {
 			self.players[i].simulate();
@@ -55,13 +53,13 @@ function Game(w, h) {
 			for (var j in data[i].players) {
 				if (!this.players[j]) {
 					// neuen Player anlegen
-					this.players[j] = new Player(data[i].players[j].id, data[i].players[j].x, data[i].players[j].y);
+					this.players[j] = new Player(this, data[i].players[j].id, data[i].players[j].x, data[i].players[j].y);
 				}
 				// Import der Player-Daten
 				this.players[j].import(data[i].players[j]);
 			}
 			// Import der restlichen Feld-Daten
-			this.map.feld[data[i].x][data[i].y].import(data);
+			this.map.feld[data[i].x][data[i].y].import(data[i]);
 		}
 	}
 }
