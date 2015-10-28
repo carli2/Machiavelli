@@ -22,10 +22,10 @@
     <canvas id="map" width="400" height="400" class="widget">
     </canvas>
     <div id="feld" style="width: 400px; height: 400; position: relative;" class="widget">
-     <preview ng-click="action(['move', 0])" class="action" ng-model="at[0]" style="cursor: n-resize; position: absolute; left: {{border}}px; right: {{border}}px; top: 0px; height: {{border}}px;"></preview>
-     <preview ng-click="action(['move', 1])" class="action" ng-model="at[1]" style="cursor: s-resize; position: absolute; left: {{border}}px; right: {{border}}px; bottom: 0px; height: {{border}}px;"></preview>
-     <preview ng-click="action(['move', 2])" class="action" ng-model="at[2]" style="cursor: e-resize; position: absolute; top: {{border}}px; bottom: {{border}}px; right: 0px; width: {{border}}px;"></preview>
-     <preview ng-click="action(['move', 3])" class="action" ng-model="at[3]" style="cursor: w-resize; position: absolute; top: {{border}}px; bottom: {{border}}px; left: 0px; width: {{border}}px;"></preview>
+     <preview ng-click="action(['move', 0])" dir="1" class="action" ng-model="at[0]" style="cursor: n-resize; position: absolute; left: {{border}}px; right: {{border}}px; top: 0px; height: {{border}}px;"></preview>
+     <preview ng-click="action(['move', 1])" dir="0" class="action" ng-model="at[1]" style="cursor: s-resize; position: absolute; left: {{border}}px; right: {{border}}px; bottom: 0px; height: {{border}}px;"></preview>
+     <preview ng-click="action(['move', 2])" dir="3" class="action" ng-model="at[2]" style="cursor: e-resize; position: absolute; top: {{border}}px; bottom: {{border}}px; right: 0px; width: {{border}}px;"></preview>
+     <preview ng-click="action(['move', 3])" dir="2" class="action" ng-model="at[3]" style="cursor: w-resize; position: absolute; top: {{border}}px; bottom: {{border}}px; left: 0px; width: {{border}}px;"></preview>
 
      <feld ng-model="feld" style="position: absolute; left: {{border}}px; right:{{border}}px; top: {{border}}px; bottom: {{border}}px;">{{feld|json}}</feld>
     </div>

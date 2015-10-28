@@ -1,8 +1,9 @@
 app.directive('preview', function () {
 	return {
 		restrict: 'E',
-		scope: { ngModel: '=' },
-		template: '<div class="full" style="background: {{ngModel.getType().color}};"></div>'
+		scope: { ngModel: '=', dir: '@' },
+		template: '<div class="full" style="background: {{ngModel.getType().color}};"><div class="middled">'+
+			'<player ng-repeat="x in ngModel.players track by x.id" ng-if="x.action && x.action[0] === \'move\' && x.action[1] == dir" ng-model="x"></player></div></div>'
 	};
 });
 
@@ -13,8 +14,8 @@ app.directive('feld', function () {
 		template: '<div class="full" style="background: {{ngModel.getType().color}}; text-align: center; padding: 45px;">'+
 			'<div style="position: absolute; left: 45px; right: 45px; top: 0px; height: 45px; text-align: center;"><player ng-repeat="x in ngModel.players track by x.id" ng-model="x" ng-if="x.action && x.action[0] == \'move\' && x.action[1] == 0"></player></div>'+
 			'<div style="position: absolute; left: 45px; right: 45px; bottom: 0px; height: 45px; text-align: center;"><player ng-repeat="x in ngModel.players track by x.id" ng-model="x" ng-if="x.action && x.action[0] == \'move\' && x.action[1] == 1"></player></div>'+
-			'<div style="position: absolute; top: 50%; right: 0px; width: 45px;"><div style="margin: -50%;"><player ng-repeat="x in ngModel.players track by x.id" ng-model="x" ng-if="x.action && x.action[0] == \'move\' && x.action[1] == 2" style="display: block;"></player></div></div>'+
-			'<div style="position: absolute; top: 50%; left: 0px; width: 45px;"><div style="margin: -50%;"><player ng-repeat="x in ngModel.players track by x.id" ng-model="x" ng-if="x.action && x.action[0] == \'move\' && x.action[1] == 3" style="display: block;"></player></div></div>'+
+			'<div style="position: absolute; top: 45px; bottom: 45px; right: 0px; width: 45px;"><div class="middled"><player ng-repeat="x in ngModel.players track by x.id" ng-model="x" ng-if="x.action && x.action[0] == \'move\' && x.action[1] == 2" style="display: block;"></player></div></div>'+
+			'<div style="position: absolute; top: 45px; bottom: 45px; left: 0px; width: 45px;"><div class="middled"><player ng-repeat="x in ngModel.players track by x.id" ng-model="x" ng-if="x.action && x.action[0] == \'move\' && x.action[1] == 3" style="display: block;"></player></div></div>'+
 			'<h2>{{ngModel.getType().name}}</h2>'+
 			'<div ng-if="ngModel.harvester">Arbeiter:<br/><player ng-model="ngModel.players[ngModel.harvester]"></player></div>'+
 			'Personen:<br/><player ng-repeat="x in ngModel.players track by x.id" ng-model="x" ng-if="!x.action"></player>'+
@@ -73,8 +74,10 @@ app.directive('neuSchild', function () {
 				for (var i in $scope.ngModel) {
 					if (i !== 'type') delete $scope.ngModel[i];
 				}
-				for (var i in schildtypen[$scope.ngModel.type].params) {
-					$scope.ngModel[i] = defaultSchildValue[schildtypen[$scope.ngModel.type].params[i]];
+				if ($scope.ngModel.type) {
+					for (var i in schildtypen[$scope.ngModel.type].params) {
+						$scope.ngModel[i] = defaultSchildValue[schildtypen[$scope.ngModel.type].params[i]];
+					}
 				}
 			});
 		}

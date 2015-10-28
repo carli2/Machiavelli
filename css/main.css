@@ -23,6 +23,12 @@
 	font-size: 200px;
 }
 
+.middled {
+	position: absolute;
+	margin-top: -50%;
+	top: 50%;
+}
+
 .action:hover {
 	opacity: 0.7;
 }
