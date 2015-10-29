@@ -1,6 +1,14 @@
 
 var Bag = {};
 
+Bag.weight = function (bag) {
+	var cnt = 0;
+	for (var i in this.bag) {
+		cnt += this.bag[i];
+	}
+	return cnt;
+}
+
 Bag.merge = function (oldbag, bagchange) {
 	var newbag = {};
 	for (var i in oldbag) {

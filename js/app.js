@@ -5,10 +5,10 @@ app.controller('main', function ($scope) {
 	$scope.feldtypen = Feld.typen;
 	$scope.schildtypen = schildtypen;
 
-	var game;
+	var game, myId = 1;
 	game = new Game(16, 16);
 	game.spawnPlayers(300);
-	game.player = game.players[1];
+	game.player = game.players[myId];
 	game.player.human = true;
 
 	var interval = setInterval(function () {
@@ -25,15 +25,32 @@ app.controller('main', function ($scope) {
 				game.map.importOverview(data);
 				redrawMap();
 
-				interval = setInterval(function () {
-					game.simulate();
-					$.getJSON('/api/view?id=1', function (data) {
-						game.importPlayer(data);
-						game.player = game.players[1];
-					});
+				var id = 'x' + Math.random();
+
+				function processState(state) {
+					game.importPlayer(state);
+					game.player = game.players[myId];
 					redrawMap();
-					$scope.$apply();
-				}, 1000);
+				}
+
+				$.getJSON('/api/join?id=' + escape(id), function (state) {
+					console.log('join success');
+					myId = state.player;
+
+					$scope.action = function (action) {
+						game.player.doAction(action);
+						$.getJSON('/api/do?id=' + escape(id) + '&action=' + escape(JSON.stringify(action)), function (state) {
+						}).fail(function () {
+							alert('Aktion fehlgeschlagen');
+						});
+					}
+
+					interval = setInterval(function () {
+						game.simulate();
+						$.getJSON('/api/view?id=' + escape(id), processState);
+						$scope.$apply();
+					}, 1000);
+				});
 			});
 		});
 	}

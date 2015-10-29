@@ -131,11 +131,7 @@ function Player (game, id, x, y) {
 		this.remaining = 5;
 		if (action[0] === 'move') {
 			// Bewegen dauert länger, je mehr Gepäck man hat
-			var cnt = 0;
-			for (var i in this.bag) {
-				cnt += this.bag[i];
-			}
-			this.remaining = 4 + Math.floor(cnt / 10);
+			this.remaining = 4 + Math.floor(Bag.weight(this.bag) / 10);
 		}
 		if (action[0] === 'build') {
 			this.remaining = 10;
@@ -230,6 +226,10 @@ function Player (game, id, x, y) {
 				this.doAction(targetState.actions[0]);
 			}
 		}
+	}
+
+	this.score = function () {
+		return this.money + 10 * Bag.weight(this.bag);
 	}
 }
 
