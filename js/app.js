@@ -11,6 +11,8 @@ app.controller('main', function ($scope) {
 	game.player = game.players[myId];
 	game.player.human = true;
 
+	$scope.game = game;
+
 	var interval = setInterval(function () {
 		game.simulate();
 		redrawMap();
@@ -21,6 +23,7 @@ app.controller('main', function ($scope) {
 		clearInterval(interval);
 		$.getJSON('/api/game', function (data) {
 			game = Game.createFrom(data);
+			$scope.game = game;
 			$.getJSON('/api/map', function (data) {
 				game.map.importOverview(data);
 				redrawMap();
@@ -30,6 +33,7 @@ app.controller('main', function ($scope) {
 				function processState(state) {
 					game.importPlayer(state);
 					game.player = game.players[myId];
+					$scope.$apply();
 					redrawMap();
 				}
 
@@ -46,6 +50,7 @@ app.controller('main', function ($scope) {
 					}
 
 					interval = setInterval(function () {
+						//TODO: simulate only when latency is bad
 						game.simulate();
 						$.getJSON('/api/view?id=' + escape(id), processState);
 						$scope.$apply();
@@ -54,8 +59,6 @@ app.controller('main', function ($scope) {
 			});
 		});
 	}
-
-	$scope.game = game;
 
 	$scope.border = 50;
 

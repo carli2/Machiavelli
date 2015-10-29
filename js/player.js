@@ -26,7 +26,8 @@ function Player (game, id, x, y) {
 			energy: this.energy,
 			money: this.money,
 			action: this.action,
-			remaining: this.remaining
+			remaining: this.remaining,
+			human: this.human
 		};
 	}
 
@@ -38,6 +39,7 @@ function Player (game, id, x, y) {
 		this.money = data.money;
 		this.action = data.action;
 		this.remaining = data.remaining;
+		this.human = data.human;
 	}
 
 	function setPosition (x, y) {
